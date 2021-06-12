@@ -30,12 +30,6 @@ const componentGenerator = {
         templateFile: "./componentName.test.tsx.hbs",
         abortOnFail: true,
       },
-      {
-        type: "add",
-        path: COMPONENTS_PATH + "{{properCase name}}/{{properCase name}}.stories.tsx",
-        templateFile: "./componentName.story.tsx.hbs",
-        abortOnFail: true,
-      },
     ];
 
     return actions;
