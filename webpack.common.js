@@ -32,7 +32,6 @@ module.exports = {
   resolve: {
     alias: {
       "react-native": "react-native-web",
-      "@storybook/react-native": "@storybook/react",
       "react-native-gesture-handler": "react-native-web",
       screens: path.resolve(__dirname, "src", "screens"),
       components: path.resolve(__dirname, "src", "components"),
