@@ -1,42 +1,40 @@
 import AnimatedTypingText from "components/AnimatedTypingText";
 import React, {ReactElement} from "react";
-import {Dimensions, StyleSheet, View} from "react-native";
-import {useTheme} from "react-native-paper";
+import {StyleSheet, View} from "react-native";
+import {Headline, useTheme} from "react-native-paper";
 
 interface IAnimatedTextProps {}
 const AnimatedText: React.FC<IAnimatedTextProps> = (props): ReactElement => {
   const theme = useTheme();
   const styles = StyleSheet.create({
-    container: {
-      height: Dimensions.get("window").height,
-    },
-
     textContainer: {
-      height: "100%",
       alignItems: "center",
-      justifyContent: "center",
-      flex: 2,
+      top: "30%",
+    },
+    intro: {
+      fontSize: 40,
+      paddingTop: "1%",
+      color: theme.colors.text,
+    },
+    engineer: {
+      flexDirection: "row",
+      marginTop: "2%",
+      width: "40%",
+      paddingLeft: "10%",
     },
   });
-
   return (
-    <View style={styles.container}>
-      <View style={styles.textContainer}>
+    <View style={styles.textContainer}>
+      <Headline style={styles.intro}>👋 Hi, I'm Ashish D'sa</Headline>
+      <View style={styles.engineer}>
+        <Headline style={styles.intro}>Engineer - </Headline>
         <AnimatedTypingText
-          color={theme.colors.text}
-          textSize={30}
-          typingAnimationDuration={100}
-          blinkingCursorAnimationDuration={190}
-          text="&#129304; Hi, I'm Ashish D'sa"
+          color={theme.colors.accent}
+          textSize={40}
+          typingAnimationDuration={50}
+          blinkingCursorAnimationDuration={200}
+          text={["Frontend", "Mobile"]}
           loop={true}
-        />
-        <AnimatedTypingText
-          color={theme.colors.text}
-          textSize={30}
-          typingAnimationDuration={100}
-          blinkingCursorAnimationDuration={190}
-          text="Web Engineer"
-          loop={false}
         />
       </View>
     </View>
