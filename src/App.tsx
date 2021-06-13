@@ -1,15 +1,13 @@
 // @ts-nocheck
 import {BaseNavigator} from "navigation/BaseNavigator";
-import React, {ReactElement} from "react";
+import React, {ReactElement, useState} from "react";
 import {Platform, StatusBar} from "react-native";
 import {Provider as PaperProvider} from "react-native-paper";
 import iconFont from "react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf";
-import {CombinedDefaultTheme} from "services/theming";
+import {CombinedDarkTheme} from "services/theming";
 
-const theme = {
-  ...CombinedDefaultTheme,
-};
 const App: React.FC = (): ReactElement => {
+  const [theme, setTheme] = useState(CombinedDarkTheme);
   return (
     <PaperProvider theme={theme}>
       <StatusBar translucent backgroundColor="transparent" />
@@ -21,8 +19,7 @@ const App: React.FC = (): ReactElement => {
        }
       `}</style>
       ) : null}
-
-      <BaseNavigator theme={theme} />
+      <BaseNavigator theme={theme} setTheme={setTheme} />
     </PaperProvider>
   );
 };
