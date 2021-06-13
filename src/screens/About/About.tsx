@@ -1,4 +1,3 @@
-import NavigationHeader from "components/NavigationHeader";
 import React, {ReactElement, useEffect} from "react";
 import {StyleSheet, View} from "react-native";
 
@@ -11,11 +10,7 @@ const About: React.FC<IAboutProps> = (props): ReactElement => {
     };
   }, []);
 
-  return (
-    <View style={styles.container}>
-      <NavigationHeader />
-    </View>
-  );
+  return <View style={styles.container}></View>;
 };
 
 export default About;

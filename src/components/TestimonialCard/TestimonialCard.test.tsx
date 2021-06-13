@@ -1,12 +1,12 @@
 
-import Card from "./Card";
+import TestimonialCard from "./TestimonialCard";
 
-describe("Card", () => {
+describe("TestimonialCard", () => {
 it("should render correctly", () => {
    const component = (
-      <Card>
+      <TestimonialCard>
         Test
-      </Card>
+      </TestimonialCard>
     );
 
     expect(component).toMatchSnapshot();

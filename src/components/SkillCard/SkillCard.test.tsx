@@ -1,12 +1,12 @@
 
-import Button from "./Button";
+import SkillCard from "./SkillCard";
 
-describe("Button", () => {
+describe("SkillCard", () => {
 it("should render correctly", () => {
    const component = (
-      <Button>
+      <SkillCard>
         Test
-      </Button>
+      </SkillCard>
     );
 
     expect(component).toMatchSnapshot();

@@ -2,7 +2,7 @@ import React, {ReactElement, useEffect, useRef, useState} from "react";
 import {StyleSheet, Text, View} from "react-native";
 
 interface IAnimatedTypingTextProps {
-  text: string;
+  text: string[];
   color: string;
   textSize: number;
   typingAnimationDuration: number;
@@ -10,44 +10,38 @@ interface IAnimatedTypingTextProps {
   loop: boolean;
 }
 const AnimatedTypingText: React.FC<IAnimatedTypingTextProps> = (props): ReactElement => {
-  let index = 0;
-  let typingTimer: any;
   let blinkingCursorTimer: any;
   const animatingTextRef = useRef("");
   const blinkingCursorColorRef = useRef("transparent");
   const [animatingText, setAnimatingText] = useState("");
   const [blinkingCursorColor, setBlinkingCursorColor] = useState("transparent");
 
-  const typingAnimation = (inputText: string, reverse: boolean): void => {
-    clearTimeout(typingTimer);
-    if (!reverse) {
-      if (index < inputText.length) {
-        const newText = animatingTextRef.current + inputText.charAt(index);
-        animatingTextRef.current = newText;
-        setAnimatingText(newText);
-        index++;
-        typingTimer = setTimeout(() => {
-          typingAnimation(inputText, false);
-        }, props.typingAnimationDuration);
-      } else {
-        typingTimer = setTimeout(() => {
-          typingAnimation(inputText, true);
-        }, props.typingAnimationDuration);
+  const typingAnimation = async (inputText: string[]): Promise<void> => {
+    do {
+      for (const text of inputText) {
+        await typingForwardAnimation(text, 0);
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        props.loop ? await typingBackwardsAnimation(text, text.length - 1) : null;
       }
-    } else if (props.loop) {
-      if (index >= 0) {
-        const newText = animatingTextRef.current.substring(0, animatingTextRef.current.length - 1);
-        animatingTextRef.current = newText;
-        setAnimatingText(newText);
-        index -= 1;
-        typingTimer = setTimeout(() => {
-          typingAnimation(inputText, true);
-        }, props.typingAnimationDuration);
-      } else {
-        typingTimer = setTimeout(() => {
-          typingAnimation(inputText, false);
-        }, props.typingAnimationDuration);
-      }
+    } while (props.loop);
+  };
+  const typingForwardAnimation = async (inputText: string, index: number): Promise<void> => {
+    if (index < inputText.length) {
+      const newText = animatingTextRef.current + inputText.charAt(index);
+      animatingTextRef.current = newText;
+      setAnimatingText(newText);
+      await new Promise(resolve => setTimeout(resolve, props.typingAnimationDuration));
+      await typingForwardAnimation(inputText, (index += 1));
+    }
+  };
+
+  const typingBackwardsAnimation = async (inputText: string, index: number): Promise<void> => {
+    if (index >= 0) {
+      const newText = animatingTextRef.current.substring(0, animatingTextRef.current.length - 1);
+      animatingTextRef.current = newText;
+      setAnimatingText(newText);
+      await new Promise(resolve => setTimeout(resolve, props.typingAnimationDuration));
+      await typingBackwardsAnimation(inputText, (index -= 1));
     }
   };
 
@@ -64,10 +58,9 @@ const AnimatedTypingText: React.FC<IAnimatedTypingTextProps> = (props): ReactEle
   };
 
   useEffect(() => {
-    typingAnimation(props.text, false);
+    typingAnimation(props.text);
     blinkingCursorAnimation();
     return () => {
-      clearTimeout(typingTimer);
       clearInterval(blinkingCursorTimer);
     };
   }, []);
